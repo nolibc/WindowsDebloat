@@ -4,11 +4,11 @@ import subprocess
 
 class Optimizations:
     def dotnet_framework(self):
-        print("\n[ ] Installing .NET Framework 3.5...")
+        print("\n[*] Installing .NET Framework 3.5...")
         subprocess.run(
             "powershell.exe DISM /Online /Enable-Feature /FeatureName:NetFx3 /All"
         )
-        print("\n[+] .NET Framework 3.5 installed.")
+        print("\n[*] .NET Framework 3.5 installed.")
 
     def disable_mouse_acceleration(self):
         MOUSE_SENS = winreg.CreateKey(winreg.HKEY_CURRENT_USER, "Control Panel\Mouse")
@@ -48,7 +48,7 @@ class Optimizations:
         winreg.SetValueEx(MOUSE_THRESHHOLD, "MouseThreshold1", 0, winreg.REG_SZ, "0")
         winreg.SetValueEx(MOUSE_THRESHHOLD, "MouseThreshold2", 0, winreg.REG_SZ, "0")
         winreg.CloseKey(MOUSE_THRESHHOLD)
-        print("\n[+] Mouse acceleration disabled.")
+        print("\n[*] Mouse acceleration disabled.")
 
     def fix_keyboard_input_delay(self):
         KEYBOARD_DELAY_USER = winreg.CreateKey(
@@ -64,17 +64,18 @@ class Optimizations:
             KEYBOARD_DELAY_DEFAULT, "KeyboardDelay", 0, winreg.REG_SZ, "0"
         )
         winreg.CloseKey(KEYBOARD_DELAY_DEFAULT)
-        print("\n[+] Fixed Keyboard Input Delay.")
+        print("\n[*] Fixed Keyboard Input Delay.")
 
-    def restore_ms_photo_viewer(self):
-        pass
+    def disable_hibernation(self):
+        subprocess.run("powercfg.exe /h off", shell=True)
+        print("[*] Hibernation disabled.")
 
     def ultimate_power_plan(self):
         subprocess.run(
             "powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61",
             shell=True,
         )
-        print("\n[+] Ultimate power plan enabled. (Check 'Edit Power Plan' settings.")
+        print("\n[*] Ultimate power plan enabled. (Check 'Edit Power Plan' settings.")
 
     def performance_tweaks(self):
         CPU_SLEEP = winreg.CreateKey(
@@ -150,17 +151,17 @@ class Optimizations:
         winreg.SetValueEx(
             ENERGY_ESTIMATE, "EnergyEstimationEnabled", 0, winreg.REG_DWORD, 0x00000000
         )
-        print("[+] System responsiveness tweaks applied")
+        print("[*] System responsiveness tweaks applied")
         # Change Windows Updates to "Notify to schedule restart"
         subprocess.run(
             'reg add "HKLM\\SOFTWARE\\Microsoft\\WindowsUpdate\\UX\\Settings" /v UxOption /t REG_DWORD /d 1 /f'
         )
-        print("[+] Changed Windows Updates to Notify to schedule restart")
+        print("[*] Changed Windows Updates to Notify to schedule restart")
         # Disable P2P Update downlods outside of local network
         subprocess.run(
             'reg add "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\DeliveryOptimization\\Config" /v DODownloadMode /t REG_DWORD /d 0 /f'
         )
-        print("[+] Disabled P2P Update downloads outside of local network")
+        print("[*] Disabled P2P Update downloads outside of local network")
 
     def visual_tweaks(self):
         DPI_SCALING = winreg.CreateKey(
@@ -172,7 +173,7 @@ class Optimizations:
         winreg.SetValueEx(DPI_SCALING, "DpiScalingVer", 0, winreg.REG_DWORD, 0x00001000)
         winreg.SetValueEx(DPI_SCALING, "LogPixels", 0, winreg.REG_DWORD, 0x00000096)
         winreg.CloseKey(DPI_SCALING)
-        print("[+] Disabled WinDPI Scaling")
+        print("[*] Disabled WinDPI Scaling")
 
         ANIMATIONS = winreg.CreateKey(
             winreg.HKEY_CURRENT_USER,
@@ -263,19 +264,19 @@ class Optimizations:
             FILE_EXPLORER, "NoInternetOpenWith", 0, winreg.REG_DWORD, 0x00000001
         )
         winreg.CloseKey(FILE_EXPLORER)
-        print("[+] Visual Tweaks applied")
+        print("[*] Visual Tweaks applied")
 
 
 class Debloat:
     def disable_bloat_services(self):
         subprocess.run("sc stop DiagTrack")
-        print("\n[+] DiagTrack service stopped")
+        print("\n[*] DiagTrack service stopped")
         subprocess.run("sc stop diagnosticshub.standardcollector.service")
-        print("[+] Diagnosticshub service stopped")
+        print("[*] Diagnosticshub service stopped")
         subprocess.run("sc stop dmwappushservice")
-        print("[+] dmwappushservice stopped")
+        print("[*] dmwappushservice stopped")
         subprocess.run("sc stop WMPNetworkSvc")
-        print("[+] WMPNetworkSvc stopped")
+        print("[*] WMPNetworkSvc stopped")
         subprocess.run("sc stop WSearch")
         subprocess.run("sc config DiagTrack start= disabled")
         subprocess.run(
@@ -555,195 +556,195 @@ class Debloat:
                 'PowerShell -Command "Get-AppxPackage *3DBuilder* | Remove-AppxPackage"',
                 shell=True,
             )  # 3D Builder
-            print("[+] Uninstalled 3D Builder")
+            print("[*] Uninstalled 3D Builder")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *Getstarted* | Remove-AppxPackage"',
                 shell=True,
             )  # Get Started
-            print("[+] Uninstalled Get Started")
+            print("[*] Uninstalled Get Started")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *WindowsAlarms* | Remove-AppxPackage"',
                 shell=True,
             )  # Windows Alarms App
-            print("[+] Uninstalled Windows Alarms App")
+            print("[*] Uninstalled Windows Alarms App")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *WindowsCamera* | Remove-AppxPackage"',
                 shell=True,
             )  # Windows Camera App
-            print("[+] Uninstalled Windows Camera App")
+            print("[*] Uninstalled Windows Camera App")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *bing* | Remove-AppxPackage"',
                 shell=True,
             )  # Bing
-            print("[+] Uninstalled Bing")
+            print("[*] Uninstalled Bing")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *MicrosoftOfficeHub* | Remove-AppxPackage"',
                 shell=True,
             )  # Microsoft Office Hub
-            print("[+] Uninstalled Microsoft Office Hub")
+            print("[*] Uninstalled Microsoft Office Hub")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *OneNote* | Remove-AppxPackage"',
                 shell=True,
             )  # OneNote
-            print("[+] Uninstalled OneNote")
+            print("[*] Uninstalled OneNote")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *WindowsPhone* | Remove-AppxPackage"',
                 shell=True,
             )  # Windows Phone
-            print("[+] Uninstalled Windows Phone")
+            print("[*] Uninstalled Windows Phone")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *photos* | Remove-AppxPackage"',
                 shell=True,
             )  # Photos App
-            print("[+] Uninstalled Photos App")
+            print("[*] Uninstalled Photos App")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *SkypeApp* | Remove-AppxPackage"',
                 shell=True,
             )  # Skype App
-            print("[+] Uninstalled Skype App")
+            print("[*] Uninstalled Skype App")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *solit* | Remove-AppxPackage"',
                 shell=True,
             )  # Solit App
-            print("[+] Uninstalled Solit App")
+            print("[*] Uninstalled Solit App")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *WindowsSoundRecorder* | Remove-AppxPackage"',
                 shell=True,
             )  # Windows Sound Recorder App
-            print("[+] Uninstalled Windows Sound Recorder App")
+            print("[*] Uninstalled Windows Sound Recorder App")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *windowscommunicationsapps* | Remove-AppxPackage"',
                 shell=True,
             )  # Windows Communications Apps
-            print("[-] Uninstalled Windows Communications Apps")
+            print("[*] Uninstalled Windows Communications Apps")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *zune* | Remove-AppxPackage"',
                 shell=True,
             )  # Zune App
-            print("[-] Uninstalled Zune App")
+            print("[*] Uninstalled Zune App")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *WindowsMaps* | Remove-AppxPackage"',
                 shell=True,
             )  # Windows Maps
-            print("[-] Uninstalled Windows Maps")
+            print("[*] Uninstalled Windows Maps")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *Sway* | Remove-AppxPackage"',
                 shell=True,
             )  # Sway App
-            print("[-] Uninstalled Sway App")
+            print("[*] Uninstalled Sway App")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *CommsPhone* | Remove-AppxPackage"',
                 shell=True,
             )  # CommsPhone
-            print("[-] Uninstalled CommsPhone")
+            print("[*] Uninstalled CommsPhone")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *ConnectivityStore* | Remove-AppxPackage"',
                 shell=True,
             )  # Connectivity Store - NOT Windows Store
-            print("[-] Uninstalled Connectivity Store - NOT Windows Store")
+            print("[*] Uninstalled Connectivity Store - NOT Windows Store")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *Microsoft.Messaging* | Remove-AppxPackage"',
                 shell=True,
             )  # Microsoft Messaging App
-            print("[-] Uninstalled Microsoft Messaging App")
+            print("[*] Uninstalled Microsoft Messaging App")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *Facebook* | Remove-AppxPackage"',
                 shell=True,
             )  # Facebook App
-            print("[-] Uninstalled Facebook App")
+            print("[*] Uninstalled Facebook App")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *Twitter* | Remove-AppxPackage"',
                 shell=True,
             )  # Twitter App
-            print("[-] Uninstalled Twitter App")
+            print("[*] Uninstalled Twitter App")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *Drawboard PDF* | Remove-AppxPackage"',
                 shell=True,
             )  # Drawboard PDF
-            print("[-] Uninstalled Drawboard PDF")
+            print("[*] Uninstalled Drawboard PDF")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *YourPhone* | Remove-AppxPackage"',
                 shell=True,
             )  # Your Phone
-            print("[-] Uninstalled Your Phone")
+            print("[*] Uninstalled Your Phone")
             subprocess.run(
                 'PowerShell -Command "Get-AppxPackage *XboxApp* | Remove-AppxPackage"',
                 shell=True,
             )  # XBox App
-            print("[-] Uninstalled XBox App")
+            print("[*] Uninstalled XBox App")
             subprocess.run(
                 'Powershell -Command "Get-AppxPackage *XboxIdentityProvider* | Remove-AppxPackage"',
                 shell=True,
             )  # # XBox Identity
-            print("[-] Uninstalled XBox Identity")
+            print("[*] Uninstalled XBox Identity")
             subprocess.run(
                 'Powershell -Command "Get-AppxPackage *Xbox.TCUI* | Remove-AppxPackage" ',
                 shell=True,
             )  # XBox Live
-            print("[-] Uninstalled XBox Live")
+            print("[*] Uninstalled XBox Live")
             subprocess.run(
                 'Powershell -Command "Get-AppxPackage *XboxSpeechToTextOverlay* | Remove-AppxPackage"',
                 shell=True,
             )  # XBox Overlay
-            print("[-] Uninstalled XBox Overlay")
+            print("[*] Uninstalled XBox Overlay")
             subprocess.run(
                 'Powershell -Command "Get-AppxPackage *XboxGamingOverlay* | Remove-AppxPackage"',
                 shell=True,
             )  # XBox Game Bar
-            print("[-] Uninstalled XBox Game Bar")
+            print("[*] Uninstalled XBox Game Bar")
             subprocess.run(
                 'Powershell -Command "Get-AppxPackage *XboxGameOverlay* | Remove-AppxPackage"',
                 shell=True,
             )  # XBox Game Bar
-            print("[-] Uninstalled XBox Game Bar")
+            print("[*] Uninstalled XBox Game Bar")
             subprocess.run(
                 'Powershell -Command "Get-AppxPackage *MicrosoftStickyNotes* | Remove-AppxPackage"',
                 shell=True,
             )  # Sticky Notes
-            print("[-] Uninstalled Sticky Notes")
+            print("[*] Uninstalled Sticky Notes")
             subprocess.run(
                 'Powershell -Command "Get-AppxPackage *Microsoft.ScreenSketch* | Remove-AppxPackage"',
                 shell=True,
             )  # Snip and Sketch
-            print("[-] Uninstalled Snip and Sketch")
+            print("[*] Uninstalled Snip and Sketch")
             subprocess.run(
                 'Powershell -Command "Get-AppxPackage *Microsoft.MSPaint* | Remove-AppxPackage"',
                 shell=True,
             )  # Paint 3D - NOT actual MS Paint
-            print("[-] Uninstalled Paint 3D - NOT actual MS Paint")
+            print("[*] Uninstalled Paint 3D - NOT actual MS Paint")
             subprocess.run(
                 'Powershell -Command "Get-AppxPackage *Microsoft.Wallet* | Remove-AppxPackage"',
                 shell=True,
             )  # Microsoft Pay
-            print("[-] Uninstalled Microsoft Pay")
+            print("[*] Uninstalled Microsoft Pay")
             subprocess.run(
                 'Powershell -Command "Get-AppxPackage *Microsoft.GetHelp* | Remove-AppxPackage"',
                 shell=True,
             )  # Get Help
-            print("[-] Uninstalled Get Help")
+            print("[*] Uninstalled Get Help")
             subprocess.run(
                 'Powershell -Command "Get-AppxPackage *Microsoft.WindowsFeedbackHub* | Remove-AppxPackage"',
                 shell=True,
             )  # Feedback Hub
-            print("[-] Uninstalled Feedback Hub")
+            print("[*] Uninstalled Feedback Hub")
             subprocess.run(
                 'Powershell -Command "Get-AppxPackage *Microsoft.People* | Remove-AppxPackage"',
                 shell=True,
             )  #  People
-            print("[-] Uninstalled People")
+            print("[*] Uninstalled People")
             subprocess.run(
                 'Powershell -Command "Get-AppxPackage *Microsoft.Microsoft3DViewer* | Remove-AppxPackage"',
                 shell=True,
             )  # 3D Viewer
-            print("[-] Uninstalled 3D Viewer")
+            print("[*] Uninstalled 3D Viewer")
             subprocess.run(
                 'Powershell -Command "Get-AppxPackage *Microsoft.MixedReality.Portal* | Remove-AppxPackage"',
                 shell=True,
             )  # Mixed Reality Portal
-            print("[-] Uninstalled Mixed Reality Portal")
+            print("[*] Uninstalled Mixed Reality Portal")
 
         except Exception:
-            print("[-] Error: Microsoft Apps may already be uninstalled.")
+            print("[*] Error: Microsoft Apps may already be uninstalled.")
 
     def uninstall_ms_onedrive(self):
         try:
@@ -779,6 +780,6 @@ class Debloat:
                 'REG DELETE "HKEY_CLASSES_ROOT\\Wow6432Node\\CLSID\\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /f > NUL 2>&1',
                 shell=True,
             )
-            print("[+] OneDrive has been uninstalled.\n")
+            print("[*] OneDrive has been uninstalled.\n")
         except Exception:
-            print("[-] Error: Could not uninstall Microsoft OneDrive.\n")
+            print("[*] Error: Could not uninstall Microsoft OneDrive.\n")
