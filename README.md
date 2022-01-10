@@ -1,7 +1,7 @@
 # Windows Debloat 🗑️
 Quickly and easily configure Windows 10.
 
-![alt text](https://raw.githubusercontent.com/LinJuz/WindowsDebloat/main/Screenshots/screenshot1.png)
+![alt text](https://github.com/LinJuz/WindowsDebloat/blob/main/screenshots/MainGUI.png)
 
 ## Disclaimer
 **I am NOT responsible for anything that happens to your computer.**
