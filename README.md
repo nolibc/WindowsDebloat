@@ -10,7 +10,7 @@ Reduce Windows telemetry, cut down on visual and 'technical' annoyances, and rem
 
 If you have a terminal you prefer, you may use it to display output information.
 
-Just call the .exe in your terminal like any other executible binary: ``WindowsDebloat.exe``
+Just call the .exe in your **elevated** terminal like any other executible binary: ``WindowsDebloat.exe``
 
 ## Installation & Usage
 Simply download the binary executable from the releases page and run it.
