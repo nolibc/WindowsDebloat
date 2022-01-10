@@ -12,7 +12,7 @@ If you have a terminal you prefer, you may use it to display output information.
 
 Just call the .exe in your terminal like any other executible binary: ``WindowsDebloat.exe``
 
-## Usage
+## Installation & Usage
 Simply download the binary executable from the releases page and run it.
 
 If you wish to build Windows Debloat using a Python compiler, the only non-native package you'll need is PyQt5.
