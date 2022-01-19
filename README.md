@@ -1,4 +1,4 @@
-# Windows Debloat 🗑️
+# Windows Debloat
 Quickly and easily configure Windows 10.
 
 ![alt text](https://github.com/LinJuz/WindowsDebloat/blob/main/screenshots/MainGUI.png)
