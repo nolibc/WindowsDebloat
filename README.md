@@ -22,7 +22,7 @@ If you wish to build Windows Debloat using a Python compiler, the only non-nativ
 The same applies if you just want to edit or run Windows Debloat using Python.
 
 ## Why does this exist
-This project exists because I often reformat my computer and became tired of reconfiguring Windows 10. 
+A friend wanted me to create this because their Windows computer was getting slow and asked for my help.
 
 
 ## Disclaimer
